@@ -1,0 +1,42 @@
+<!-- #django way of templating is this. create a main folder within the tenplates folder within the main folder -->
+{% extends 'main/base.html' %}
+{% block content %}
+
+
+
+
+<div class="container">
+  <br>
+  <div class="card" id="backdrop">
+    <div class="card-body">
+      <div class="row">
+        {% for movie in movies %}
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+
+                <h5 class="card-title">{{ movie.name }}</h5>
+                <i>{{ movie.release_date }}</i>
+                <br><br>
+                <div class="text-centre">
+                  <a href="{% url 'main:details' movie.id %}" class="btn btn-sm btn-info aria-pressed="true" ">Reviews and More</a>
+                </div>
+
+
+
+            </div>
+          </div>
+
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+
+  </div>
+</div>
+
+{% endblock %}
+<!-- <li><a href="{% url 'main:details' movie.id %}">{{ movie.name }} -Directed by {{movie.director}}</li> -->
+  <!-- #url routing we specified app_name as main in our urls.py and then we set our url route of detail page we had given the name details to that page and we passed it here along with the movie id parameter -->
