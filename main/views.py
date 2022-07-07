@@ -56,3 +56,8 @@ def edit_movies(request,id):
     else:
         form = MovieForm(instance=movie)
     return render(request , 'main/addMovies.html', {"form" : form, "controller" : "Edit Movie"})
+
+def delete_movies(request,id):
+    movie= Movie.objects.get(id=id)
+    movie.delete()
+    return redirect('main:home')

@@ -18,5 +18,6 @@ from django.urls import path, include #assume some libraries of django named as 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls')) #this command is gonna include the urls.py file from our main app
+    path('', include('main.urls')), #this command is gonna include the urls.py file from our main app
+    path('accounts/', include('accounts.urls'))
 ]
