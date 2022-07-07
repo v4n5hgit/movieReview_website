@@ -2,40 +2,60 @@
 {% extends 'main/base.html' %}
 {% block content %}
 
-
-
-
 <div class="container">
-  <br>
-  <div class="card" id="backdrop" >
-    <div class="card-body">
-      <div class="row">
-        {% for movie in movies %}
-        <div class="col-lg-4 d-flex align-items-stretch" >
-          <div class="card">
-            <div class="card-body">
-              <img class="card-img-top" src="{{ movie.image }}" alt="Card image cap" >
-                <br><br>
-                <h5 class="card-title">{{ movie.name }}</h5>
-                <i>{{ movie.release_date }}</i>
-                <br><br>
-                <div class="text-centre">
-                  <a href="{% url 'main:detail' movie.id %}" class="btn btn-sm btn-info aria-pressed="true" ">Reviews and More</a>
-                </div>
+ <br>
+ <div class="topic" style="
+   /* border: 2px solid white; */
+   display: flex;
+   height: 34vh;
+   /* text-align: center; */
+   align-items: center;
+   /* background-image: url(https://miro.medium.com/max/875/1*S5XhemJtXYa6s_JfuEV10Q.gif); */
+   background-size: cover;
+   margin-bottom: 7px;
+   color: antiquewhite;
+   /* background-position: center; */
+   justify-content: center;
+   font-family: fantasy;
+   font-size: 10vw;
+">F I L M S T E R</div>
+ <div class="top" style="
+ height: 65vh;
+ background-image: url(https://miro.medium.com/max/875/1*S5XhemJtXYa6s_JfuEV10Q.gif);
+ background-size: cover;
+ margin-bottom: 7px;
+ background-position: center;
+ /* width: 70em; */
+ margin-left: 15px;
+ border-radius: 11px;
+ margin-right: 18px;
+"></div>
+ <div class="card" id="backdrop" style="background: transparent; border:none;" >
+   <div class="card-body">
+     <div class="row">
+       {% for movie in movies %}
+       <div class="col-md-4">
+         <div class="card" style="margin-bottom: 1em;">
+           <div class="card-body">
+               <img class="card-img-top" style="height:25em;" src="{{ movie.image }}" alt="Card image cap" width= "75%">
+               <br><br>
+               <h5 class="card-title">{{ movie.name }}</h5>
+               <i>{{ movie.release_date }}</i>
+               <br><br>
+               <div class="text-centre">
+                 <a href="{% url 'main:detail' movie.id %}" class="btn btn-sm btn-info aria-pressed="true" ">Reviews and More</a>
+               </div>
+           </div>
+         </div>
 
+       </div>
+       {% endfor %}
 
+     </div>
+   </div>
+   <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
 
-            </div>
-          </div>
-
-        </div>
-        {% endfor %}
-
-      </div>
-    </div>
-    <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
-
-  </div>
+ </div>
 </div>
 
 {% endblock %}
