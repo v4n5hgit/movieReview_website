@@ -28,36 +28,61 @@ def detail(request,id):
 #add movies to the databse
 
 def add_movies(request):
-    if request.method == "POST":
-        form = MovieForm(request.POST or None)
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            if request.method == "POST":
+                form = MovieForm(request.POST or None)
 
-        #check if the form is valid
-        if form.is_valid():
-            data= form.save(commit=False)
-            data.save()
+                #check if the form is valid
+                if form.is_valid():
+                    data= form.save(commit=False)
+                    data.save()
+                    return redirect("main:home")
+
+            else:
+                form =MovieForm()
+            return render( request, 'main/addMovies.html' , {"form" : form, "controller" : "Add movie"})
+
+        #if they are not admin
+        else:
             return redirect("main:home")
-
+    #if they are not logged in
     else:
-        form =MovieForm()
-    return render( request, 'main/addMovies.html' , {"form" : form, "controller" : "Add movie"})
+        return redirect("accounts:login")
+
 
 #edit movies details
 def edit_movies(request,id):
-    movie= Movie.objects.get(id=id) #select * from Moview where id=id
-    if request.method == "POST":
-        form = MovieForm(request.POST or None, instance=movie)
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            movie= Movie.objects.get(id=id) #select * from Moview where id=id
+            if request.method == "POST":
+                form = MovieForm(request.POST or None, instance=movie)
 
-        if form.is_valid():
-            data= form.save(commit=False)
-            data.save()
-            return redirect("main:detail" , id)
-            # important point to note here after main: "<the name of the page that you gave in your urls.py>"
+                if form.is_valid():
+                    data= form.save(commit=False)
+                    data.save()
+                    return redirect("main:detail" , id)
+                    # important point to note here after main: "<the name of the page that you gave in your urls.py>"
 
+            else:
+                form = MovieForm(instance=movie)
+            return render(request , 'main/addMovies.html', {"form" : form, "controller" : "Edit Movie"})
+        #if they are not admin
+        else:
+            return redirect("main:home")
+    #if they are not logged in
     else:
-        form = MovieForm(instance=movie)
-    return render(request , 'main/addMovies.html', {"form" : form, "controller" : "Edit Movie"})
+        return redirect("accounts:login")
 
 def delete_movies(request,id):
-    movie= Movie.objects.get(id=id)
-    movie.delete()
-    return redirect('main:home')
+    if request.user.is_authenticated:
+        if request.user.is_superuser:
+            movie= Movie.objects.get(id=id)
+            movie.delete()
+            return redirect('main:home')
+        else:
+            return redirect("main:home")
+    #if they are not logged in
+    else:
+        return redirect("accounts:login")
