@@ -10,8 +10,6 @@
    height: 34vh;
    /* text-align: center; */
    align-items: center;
-   /* background-image: url(https://miro.medium.com/max/875/1*S5XhemJtXYa6s_JfuEV10Q.gif); */
-   background-size: cover;
    margin-bottom: 7px;
    color: antiquewhite;
    /* background-position: center; */
@@ -20,9 +18,7 @@
    font-size: 10vw;
 ">F I L M S T E R</div>
  <div class="top" style="
- height: 65vh;
- background-image: url(https://miro.medium.com/max/875/1*S5XhemJtXYa6s_JfuEV10Q.gif);
- background-size: cover;
+ height: 0vh;
  margin-bottom: 7px;
  background-position: center;
  /* width: 70em; */
@@ -30,6 +26,7 @@
  border-radius: 11px;
  margin-right: 18px;
 "></div>
+<div> Search Results for {{ searchTerm }}</div>
  <div class="card" id="backdrop" style="background: transparent; border:none;" >
    <div class="card-body">
      <div class="row">
@@ -43,7 +40,7 @@
                <i>{{ value.release_date }}</i>
                <br><br>
                <div class="text-centre">
-                 <a href="details/{{ key }}" class="btn btn-sm btn-info aria-pressed="true" ">Reviews and More</a>
+                 <a href="/details/{{ key }}/" class="btn btn-sm btn-info aria-pressed="true" " action="/detail/">Reviews and More</a>
                </div>
            </div>
          </div>

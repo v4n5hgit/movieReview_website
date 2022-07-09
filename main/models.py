@@ -20,3 +20,4 @@ class Movie(models.Model): # we are creating a table named Movie
 
         #now after creating a table we need to register it to admin.py
         #and after making any changes to database we need to run migrations
+        
