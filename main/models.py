@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here.
 class Movie(models.Model): # we are creating a table named Movie
     #fields for the Movie table
@@ -20,4 +20,8 @@ class Movie(models.Model): # we are creating a table named Movie
 
         #now after creating a table we need to register it to admin.py
         #and after making any changes to database we need to run migrations
-        
+class reviews(models.Model):
+    movieid = models.ForeignKey(Movie, on_delete = models.CASCADE)
+    user= models.ForeignKey(User, on_delete = models.CASCADE)
+    review = models.TextField(max_length=3000)
+    rating = models.FloatField(default=0)

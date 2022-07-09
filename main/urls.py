@@ -12,6 +12,8 @@ urlpatterns = [
     path('',views.home, name="home"), #here blank sapce in first ' ' because it is supposed to be our home page. there is nothing before to be written before the url of our home page
     path('details/<int:id>/' , views.detail, name="detail"),
     path('search/' , views.searchresults, name="searchresults"),
+    path('review/', views.review, name='review'),
+    # path('addreview/<int:id>/' ,views.add_review, name= "add_review")
 ]
 
 

@@ -66,6 +66,38 @@ def searchresults(request):
         response3[i] = requests.get(apiBaseURL + 'movie/' + str(i) + '?api_key=' + apiKey).json()
     return render(request, 'main/search.html/', {'response3' : response3, 'searchTerm':searchTerm})
 
+def review(request):
+
+    movie_id = request.POST.get("movieid")
+    response = requests.get(apiBaseURL + 'movie/' + movie_id + '?api_key=' + apiKey).json()
+    title = response["title"]
+    overview = response["overview"]
+    rating = response["vote_average"]
+    release = response["release_date"]
+    moviedata = movies(movieid=movie_id, title=title, overview=overview, rating=rating, release=release)
+    moviedata.save()
+    review = reviews.objects.all().filter(movieid = movie_id)
+    if request.user.is_authenticated:
+        if request.method== "POST":
+            form = ReviewForm(request.POST or None)
+            if form.is_valid():
+                data= form.save(commit= False)
+                data.review= request.POST["review"]
+                data.rating= request.POST["rating"]
+                data.user= request.user
+                data.movieid= movie_id
+                data.save()
+                return redirect("main:detail" , movie_id)
+        else:
+            form = MovieForm()
+        return render(request, 'main/details.html', {'response':response, 'review':review, 'form' : form})
+    else:
+        return redirect("accounts:login")
+
+
+
+
+
 
 
 

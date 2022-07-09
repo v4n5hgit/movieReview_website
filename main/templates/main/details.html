@@ -21,7 +21,38 @@
   </div>
 
 </div>
+<br>
+<div class="card">
+  <div class="card-body">
+    <h3 class="text-center">Post your Review!</h3>
+    <form  action= "{% url 'main:review'  %}" method="post">
+      {% csrf_token %}
+      <label for="review">Review</label>
+      <textarea name="review" rows="5" cols="30" class="form-control"></textarea>
+      <label for="rating">Rating</label>
+      <input type="text" name="rating" class="form-control">
+      <br>
+      <input type="submit" name="" value="Add Review" class="btn btn-danger">
+    </form>
+
+  </div>
+
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <br>
+    <ul>
+      {% for reviews in review %}
+        <li>{{ reviews.review }} <i>{{ reviews.user }}</i>  </li>
 
 
 
+      {% endfor %}
+    </ul>
+
+
+  </div>
+
+</div>
 {% endblock %}
