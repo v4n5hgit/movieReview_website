@@ -13,6 +13,7 @@ urlpatterns = [
     path('details/<int:id>/' , views.detail, name="detail"),
     path('search/' , views.searchresults, name="searchresults"),
     path('review/', views.review, name='review'),
+    path('genre/<int:genreid>/' , views.genre, name="genre"),
     # path('addreview/<int:id>/' ,views.add_review, name= "add_review")
 ]
 

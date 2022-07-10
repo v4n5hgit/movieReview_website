@@ -38,6 +38,7 @@ def detail(request,id):
     # context = {
     #     "movie" : movie
     # }
+    review = reviews.objects.all().filter(movieid = id)
     response = requests.get(apiBaseURL + 'movie/' + str(id) + '?api_key=' + apiKey).json()
     title = response["title"]
     overview = response["overview"]
@@ -50,7 +51,8 @@ def detail(request,id):
         moviedata = Movie(name=title, description=overview, averageRating=rating, release_date=release, image=imageurl)
         moviedata.save()
     # review = reviews.objects.all().filter(movieid = movie_id)
-    return render(request, 'main/details.html', {'response':response})
+    review = reviews.objects.all().filter(movieid = id)
+    return render(request, 'main/details.html', {'response':response, 'review':review})
 
 #search a movie
 
@@ -67,32 +69,49 @@ def searchresults(request):
     return render(request, 'main/search.html/', {'response3' : response3, 'searchTerm':searchTerm})
 
 def review(request):
+    id = request.POST.get("movieid")
 
-    movie_id = request.POST.get("movieid")
-    response = requests.get(apiBaseURL + 'movie/' + movie_id + '?api_key=' + apiKey).json()
-    title = response["title"]
-    overview = response["overview"]
-    rating = response["vote_average"]
-    release = response["release_date"]
-    moviedata = movies(movieid=movie_id, title=title, overview=overview, rating=rating, release=release)
-    moviedata.save()
-    review = reviews.objects.all().filter(movieid = movie_id)
     if request.user.is_authenticated:
+        response = requests.get(apiBaseURL + 'movie/' + str(id) + '?api_key=' + apiKey).json()
+
         if request.method== "POST":
-            form = ReviewForm(request.POST or None)
-            if form.is_valid():
-                data= form.save(commit= False)
-                data.review= request.POST["review"]
-                data.rating= request.POST["rating"]
-                data.user= request.user
-                data.movieid= movie_id
+
+            review = request.POST.get("review")
+            rating = request.POST.get("rating")
+            username = request.user.username
+            data = reviews(movieid=id, user=username, review=review, rating=rating)
+            review = reviews.objects.all().filter(movieid = id)
+            x = False
+            for i in range(0,len(review)):
+                if review[i].user == username:
+                    x = True
+                    break
+            if x:
+                print("here")
+                return render(request, 'main/details.html/', {'response':response, 'review':review})
+
+            else:
                 data.save()
-                return redirect("main:detail" , movie_id)
+                review = reviews.objects.all().filter(movieid = id)
+                return render(request, 'main/details.html/', {'response':response, 'review':review})
         else:
-            form = MovieForm()
-        return render(request, 'main/details.html', {'response':response, 'review':review, 'form' : form})
+            pass
+        return render(request, 'main/details.html', {'response':response, 'review':review})
     else:
         return redirect("accounts:login")
+
+def genre(request,genreid):
+
+    response = requests.get(apiBaseURL + 'genre/' + str(genreid) + '/movies?api_key=' + apiKey + '&language=en-US&include_adult=false&sort_by=created_at.asc').json()
+    popular_movies = response["results"]
+    movie_id = []
+    for i in popular_movies:
+        movie_id.append(i["id"])
+    response3 = {}
+    for i in movie_id:
+        response3[i] = requests.get(apiBaseURL + 'movie/' + str(i) + '?api_key=' + apiKey).json()
+    return render(request, 'main/genre.html/', {'response3' : response3})
+
 
 
 

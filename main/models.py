@@ -21,7 +21,7 @@ class Movie(models.Model): # we are creating a table named Movie
         #now after creating a table we need to register it to admin.py
         #and after making any changes to database we need to run migrations
 class reviews(models.Model):
-    movieid = models.ForeignKey(Movie, on_delete = models.CASCADE)
-    user= models.ForeignKey(User, on_delete = models.CASCADE)
+    movieid = models.IntegerField()
+    user= models.CharField(max_length=100)
     review = models.TextField(max_length=3000)
     rating = models.FloatField(default=0)

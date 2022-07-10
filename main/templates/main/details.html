@@ -27,6 +27,8 @@
     <h3 class="text-center">Post your Review!</h3>
     <form  action= "{% url 'main:review'  %}" method="post">
       {% csrf_token %}
+      <input type = "hidden" name = "movieid" value = "{{ response.id }}" />
+
       <label for="review">Review</label>
       <textarea name="review" rows="5" cols="30" class="form-control"></textarea>
       <label for="rating">Rating</label>
@@ -41,15 +43,26 @@
 
 <div class="card">
   <div class="card-body">
-    <br>
-    <ul>
-      {% for reviews in review %}
-        <li>{{ reviews.review }} <i>{{ reviews.user }}</i>  </li>
+    {% for reviews in review %}
+    <div class="card" style="background-color: #FFE5B4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3">
+            <h5 class="text-left">{{ reviews.user }}</h5>
+            <h5 >{{ reviews.rating }}</h5>
 
+          </div>
+          <div class="col-md-9">
+            <p>{{ reviews.review }}</p>
 
+          </div>
 
-      {% endfor %}
-    </ul>
+        </div>
+
+      </div>
+
+    </div>
+    {% endfor %}
 
 
   </div>
