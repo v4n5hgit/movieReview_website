@@ -19,7 +19,7 @@
 
  background-image: url(https://www.xmple.com/wallpaper/black-pink-gradient-linear-3840x2160-c2-ff69b4-000000-a-105-f-14.svg);">
    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
- <a class="navbar-brand" href="#">Filmster</a>
+ <a class="navbar-brand" href="{% url 'main:home' %}">Filmster</a>
  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
    <span class="navbar-toggler-icon"></span>
  </button>
@@ -29,24 +29,49 @@
      <li class="nav-item active">
        <a class="nav-link" href="{% url 'main:home' %}">Home <span class="sr-only">(current)</span></a>
      </li>
-     <li class="nav-item">
-       <a class="nav-link" href="{% url 'main:add_movies' %}">Add Movies</a>
-     </li>
-     <li class="nav-item dropdown">
+     {% if user.is_authenticated %}
+       <li class="nav-item dropdown">
        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-         Dropdown
+         {{user.username}}
        </a>
        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-         <a class="dropdown-item" href="#">Action</a>
-         <a class="dropdown-item" href="#">Another action</a>
+         <a class="dropdown-item" href="#">My Profile</a>
+         <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
          <div class="dropdown-divider"></div>
-         <a class="dropdown-item" href="#">Something else here</a>
+           <a class="dropdown-item" href="#">Settings</a>
        </div>
+      </li>
+     {% else %}
+     <li class="nav-item">
+       <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
      </li>
-
-   </ul>
-   <form class="form-inline my-2 my-lg-0">
-     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+     <li class="nav-item">
+       <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+     </li>
+     {% endif %}
+     <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Genres</a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="/genre/28" action="/genre/">Action</a>
+       <a class="dropdown-item" href="/genre/12" action="/genre/">Adventure</a>
+       <a class="dropdown-item" href="/genre/16" action="/genre/">Animation</a>
+       <a class="dropdown-item" href="/genre/35" action="/genre/">Comedy</a>
+       <a class="dropdown-item" href="/genre/80" action="/genre/">Crime</a>
+       <a class="dropdown-item" href="/genre/18" action="/genre/">Drama</a>
+       <a class="dropdown-item" href="/genre/10751" action="/genre/">Family</a>
+       <a class="dropdown-item" href="/genre/14" action="/genre/">Fantasy</a>
+       <a class="dropdown-item" href="/genre/36" action="/genre/">History</a>
+       <a class="dropdown-item" href="/genre/27" action="/genre/">Horror</a>
+       <a class="dropdown-item" href="/genre/10402" action="/genre/">Music</option>
+       <a class="dropdown-item" href="/genre/10749" action="/genre/">Romance</a>
+       <a class="dropdown-item" href="/genre/878" action="/genre/">Science Fiction</a>
+       <a class="dropdown-item" href="/genre/53" action="/genre/">Thriller</a>
+     </div>
+    </li>
+  </ul>
+   <form class="form-inline my-2 my-lg-0" method="post" action="/search/">
+    {% csrf_token %}
+     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="searchTerm">
      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
    </form>
  </div>
